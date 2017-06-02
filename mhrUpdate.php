@@ -1,46 +1,54 @@
 <?php
-	include_once 'connection.php';	
+	include 'connection.php';	
     if ($mysqli->connect_errno) {
        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }	 
+    }
+    //init update query 
+	$update_query = "";	 
     //get params from html request
-    $inputnama = (isset($_GET['inputnama']) ? $_GET['inputnama'] : null);
-	$u_options = (isset($_GET['u_options']) ? $_GET['u_options'] : null);
-	$u_string = (isset($_GET['u_string']) ? $_GET['u_string'] : null);
+    $inputnama = (isset($_POST['inputnama']) ? $_POST['inputnama'] : null);
+	$u_options = (isset($_POST['u_options']) ? $_POST['u_options'] : null);
+	$u_string = (isset($_POST['u_string']) ? $_POST['u_string'] : null);
 
-	//init update query 
-	$update_query = "";
+	$type_string = "s";
 
 	if ($u_options == "nama") {
-		$update_query = "UPDATE `anggota` SET NAMA = ? WHERE NAMA = $inputnama";
+		$update_query = "UPDATE `anggota` SET `Nama` = ? WHERE `Nama` = $inputnama";
 	}
-	else if ($u_uptions == "status") {
-		$update_query = "UPDATE `anggota` SET STATUS = ? WHERE NAMA = $inputnama";
+	else if ($u_options == "status") {
+		$update_query = "UPDATE `anggota` SET `Status` = ? WHERE `Nama` = $inputnama";
+		$u_string = (int) $u_string;
+		$type_string = "i";
 	} 
-	else if ($u_uptions == "domisili") {
-		$update_query = "UPDATE `anggota` SET DOMISILI = ? WHERE NAMA = $inputnama";
+	else if ($u_options == "domisili") {
+		$update_query = "UPDATE `anggota` SET `Domisili` = ? WHERE `Nama` = $inputnama";
 	}
 	else {
-		echo "Query doesn't match any format";
+		echo "Query doesn't match any format<br>";
 	}
+
 	/*Prepare statement for execution*/
-	if ($stmt -> $mysqli.prepare($update_query)) {
-		if ($u_options == "status") {
-			$stmt -> bindparam('i', int($u_string));
-		}
-		else {
-			$stmt -> bindparam('s', $u_string);		
-		}
+	if ($stmt = $mysqli->prepare($update_query)) {
+		if ($update_query != "") {
 
-		if ($stmt -> execute()) {
-			echo "Query Succeed!";
+			$stmt -> bind_param("$type_string", $u_string);
+
+			if ($stmt -> execute()) {
+				echo "Query Succeed!";
+			}
+			else {
+				echo "Query returned an error!";
+			}
+			$stmt -> close();
+			$mysqli -> close();
 		}
 		else {
-			echo "Query returned an error!";
+			echo "Options Not Given<br>";
 		}
-		$stmt -> close();
-		$mysqli -> close();
 	}
+      else {
+           echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+      }
 
-	echo "return to main page <a href='homepage link'>click</a>";	
+	echo "<br>return to main page <a href='https://kmsartiyem.000webhostapp.com'>click</a>";	
 ?>
