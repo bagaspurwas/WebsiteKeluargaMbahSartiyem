@@ -87,11 +87,14 @@
                 </tr>"
             </thead>
         	<tbody>
- <?php
-      include 'dbase_functions.php';
-      //show anak by pass 0% as parameter, so query will match all tree starting with 0 (anak)
-      showAnggotaByLevel('0%');
-  ?>
+              <!--database function goes here-->
+              <?php
+                   include 'dbase_functions.php';
+                   //show anak by pass 0% as parameter, so query will match all tree starting with 0 (anak)
+                   showAnggotaByLevel($tree_param);
+               ?>
+              <!--END database function goes here-->
+
   			</tbody>
         </table>
       </div>

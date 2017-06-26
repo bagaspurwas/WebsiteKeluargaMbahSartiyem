@@ -1,8 +1,8 @@
  <?php
- 	include 'connection.php';	
+ 	include 'connection.php';
     if ($mysqli->connect_errno) {
        echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-    }	 
+    }
     //get params from html POST request
     $add_cabang = (isset($_POST['add_cabang']) ? $_POST['add_cabang'] : null);
     $add_nama = (isset($_POST['add_nama']) ? $_POST['add_nama'] : null);
@@ -26,7 +26,7 @@
 			echo "Query can't be completed. Return Error.";
 		}
 	$stmt -> close();
-	$mysqli -> close();	
+	$mysqli -> close();
 	}
     else {
         echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;

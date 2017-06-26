@@ -51,7 +51,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li class="active"><a href="https://kmsartiyem.000webhostapp.com/">Home</a></li>
-              <li><a href="acara.php">Acara</a></li>         
+              <li><a href="acara.php">Acara</a></li>
               <li><a href="about.php">About</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lihat <span class="caret"></span></a>
@@ -73,14 +73,14 @@
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
         <h2> List Canggah</h2>
-  
+
       <div>
         <table class="table">
-        	<thead>	
-        		<tr>
-	          		<td> Cabang </td> 
+        	<thead>
+        		    <tr>
+	          		<td> Cabang </td>
 	                <td> Nama </td>
-	                <td> JK </td> 
+	                <td> JK </td>
 	                <td> Status </td>
 	                <td> Domisili </td>
 	                <td> Level </td>
@@ -88,49 +88,9 @@
             </thead>
         	<tbody>
  <?php
-      include 'connection.php';
-      include 'functions.php';
-      /*check for error*/
-      if ($mysqli->connect_errno) {
-          echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-      }
-      //set Query
-      $sqlquery = "SELECT Nama, Cabang, `Jenis Kelamin`, Status, Domisili, Tree FROM `anggota` WHERE Tree LIKE ?";
-
-      /*set text query to match anything in between*/
-      $textquery_pattern = '3%';
-      /* Prepared statement*/
-      if ($stmt = $mysqli->prepare($sqlquery)) {
-          /* bind parameters for markers */
-          $stmt->bind_param("s", $textquery_pattern);
-          /* execute query */
-          $stmt->execute();
-          /*init vars*/
-          $nama_q = "";
-          $tree_q = "";
-          $status_s = "";
-          $gender_s = "";
-
-          /**/
-          $stmt->bind_result($nama_q, $cabang_q, $gender, $status, $domisili, $tree);
-          /*fetch result and print each in a table row*/
-          while ($stmt->fetch()) {
-              list($gender_s, $status_s, $tree_q) = decodeData($gender, $status, $tree);
-              echo "<tr>
-	              		<td> $cabang_q </td> 
-	                    <td> $nama_q </td>
-	                    <td> $gender_s </td> 
-	                    <td> $status_s </td>
-	                    <td> $domisili </td>
-	                    <td> $tree_q </td>
-                    </tr>";
-          }
-          $stmt->close();
-          $mysqli->close();
-      }
-      else {
-           echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-      }
+   include 'dbase_functions.php';
+   //show anak by pass 0% as parameter, so query will match all tree starting with 0 (anak)
+   showAnggotaByLevel('3%');
   ?>
   			</tbody>
         </table>

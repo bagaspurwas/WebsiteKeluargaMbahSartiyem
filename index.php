@@ -51,7 +51,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               <li class="active"><a href="https://kmsartiyem.000webhostapp.com/">Home</a></li>
-              <li><a href="acara.php">Acara</a></li>              
+              <li><a href="acara.php">Acara</a></li>
               <li><a href="about.php">About</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lihat <span class="caret"></span></a>
@@ -79,19 +79,19 @@
             <label for="nama">Nama</label>
             <input type="text" class="form-control" name="textquery">
             <input type="radio" name="seleksi" value="nama" checked> Nama
-            <input type="radio" name="seleksi" value="cabang"> Keluarga Cabang 
+            <input type="radio" name="seleksi" value="cabang"> Keluarga Cabang
           <button type="submit" class="btn btn-default">Submit</button>
         </div>
       </form>
-      <div>
+      <div class="table-responsive">
         <table class="table">
           <thead>
             <tr>
-            <td> Cabang </td> 
-            <td> Nama </td> 
+            <td> Cabang </td>
+            <td> Nama </td>
             <td> JK </td>
-            <td> Status </td> 
-            <td> Domisili </td> 
+            <td> Status </td>
+            <td> Domisili </td>
             <td> Level </td>
             </tr>
             </thead>
@@ -113,7 +113,7 @@
         $sqlquery = "SELECT Nama, Cabang, `Jenis Kelamin`, Status, Domisili, Tree FROM `anggota` WHERE Nama LIKE ?";
       }
       else if ($seleksi == "cabang") {
-        $sqlquery = "SELECT Nama, Cabang, `Jenis Kelamin`, Status, Domisili, Tree FROM `anggota` WHERE Cabang LIKE ?";        
+        $sqlquery = "SELECT Nama, Cabang, `Jenis Kelamin`, Status, Domisili, Tree FROM `anggota` WHERE Cabang LIKE ?";
       }
       /*set text query to match anything in between*/
       $textquery_pattern = '%'.$textquery.'%';
@@ -131,19 +131,29 @@
           $status_s = "";
           $gender_s = "";
 
-          /**/
+          /*validate for empty string*/
           $stmt->bind_result($nama_q, $cabang_q, $gender, $status, $domisili, $tree);
-          while ($stmt->fetch()) {
-              list($gender_s, $status_s, $tree_q) = decodeData($gender, $status, $tree);
-              echo "<tr>
-                    <td> $cabang_q </td> 
-                    <td> $nama_q </td> 
-                    <td> $gender_s </td>
-                    <td> $status_s </td>
-                    <td> $domisili </td>
-                    <td> $tree_q </td>
-                    </tr>";
+          if (($textquery != " ") && ($textquery != "")) {
+            while ($stmt->fetch()) {
+                list($gender_s, $status_s, $tree_q) = decodeData($gender, $status, $tree);
+                echo "<tr>
+                      <td> $cabang_q </td>
+                      <td> $nama_q </td>
+                      <td> $gender_s </td>
+                      <td> $status_s </td>
+                      <td> $domisili </td>
+                      <td> $tree_q </td>
+                      </tr>";
+            }
           }
+          else {
+            echo "
+              <tr>
+                <td> Invalid Text to query</td>
+              </tr>
+            ";
+          }
+
           $stmt->close();
           $mysqli->close();
       }
