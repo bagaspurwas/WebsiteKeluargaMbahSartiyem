@@ -72,7 +72,7 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <div class="text-center">
+        <div class="container">
         <img src="hiragimahiru.png" class="img-circle" alt="20">
         <p class ="text-center"> developed by Mahiru27 </p>
         </div>

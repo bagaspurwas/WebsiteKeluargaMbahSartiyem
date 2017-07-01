@@ -74,7 +74,7 @@
       <div class="jumbotron">
         <h2> List Canggah</h2>
 
-      <div>
+      <div class="table-responsive">
         <table class="table">
         	<thead>
         		    <tr>
